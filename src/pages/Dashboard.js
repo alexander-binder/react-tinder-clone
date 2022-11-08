@@ -2,6 +2,7 @@ import React from "react";
 import { ReactDOM } from "react";
 import { useState } from "react";
 import TinderCard from 'react-tinder-card';
+import ChatContainer from "../components/ChatContainer";
 
 const Dashboard = () => {
 
@@ -45,7 +46,7 @@ const Dashboard = () => {
 
     return (
         <div className="dashboard">
-            {/* <ChatContainer/> */}
+            <ChatContainer/>
             <div className="swiper-container">
                 <div className="card-container">
 
