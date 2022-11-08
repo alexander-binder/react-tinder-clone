@@ -9,7 +9,7 @@ const Nav = ({minimal, authToken, setShowModal, setIsSignUp}) => {
         setShowModal(true);
     }
 
-   
+    // const authToken = false;
 
     return (
         <nav>
