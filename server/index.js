@@ -174,7 +174,29 @@ app.put('/user', async (req, res) => {
 })
 
 
+app.put('/addmatch', async (req, res) => {
+    const client = new MongoClient(uri);
+    const {userIdConnected, matchedUserId} = req.body;
+   
+    try {
+        await client.connect()
+        const database = client.db('app-data')
+        const users = database.collection('users')
 
+        const query = {user_id: userIdConnected}
+
+        const payload = {
+            $push: { matches: {user_id: matchedUserId} }
+        }
+        const updatedUser = await users.updateOne(query, payload);
+        console.log(userIdConnected);
+        res.send(updatedUser);
+
+
+    } finally {
+        await client.close();
+    }
+})
 
 
 

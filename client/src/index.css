@@ -246,8 +246,12 @@ nav .nav-button {
 }
 
 .dashboard .card-container {
+    
     width: 400px;
     height: 650px;
+    margin-top: 4rem;
+    margin-right: 20rem;
+    color: white;
 }
 
 .card {
