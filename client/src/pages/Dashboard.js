@@ -27,8 +27,6 @@ const Dashboard = () => {
        } catch (error) {
             console.log(error);
        }
-   
-
     }
 
     const getGenderUsers = async () =>  {
@@ -80,18 +78,23 @@ const Dashboard = () => {
             updateMatches(swipedUserId);
             console.log ('you swiped: ' + direction);
         }
-        
-        // updateMatches(swipedUserId);
+       
         setLastDirection(direction);
-        // console.log ('removing: ' + swipedUserId);
-        // console.log ('you swiped: ' + lastDirection && lastDirection);
-        // console.log ('you swiped: ' + direction);
+        console.log ('removing: ' + swipedUserId);
+    
     }
     
     const outOfFrame = (name) => {
         console. log(name + ' left the screen!');
     }
 
+    const likedProfileIds = user && user.matches.map(({ user_id }) =>  user_id ).concat(userId)
+
+
+    const notMatchedUserProifles = genderedUsers?.filter(
+        (userProfile) => !likedProfileIds.includes(userProfile.user_id)
+    );
+    // console.log(matchedUserProifles);
    
 
     return (
@@ -102,7 +105,7 @@ const Dashboard = () => {
                     <div className="swiper-container">
                         <div className="card-container">
 
-                        {genderedUsers && genderedUsers.map( (user) =>
+                        {genderedUsers && notMatchedUserProifles.map( (user) =>
                             <TinderCard className='swipe' key={user.first_name} onSwipe={(dir) => swiped(dir, user.user_id)} onCardLeftScreen={() => outOfFrame(user.first_name)}> <div style={{ backgroundImage: 'url(' + user.url + ')' }} className='card'>
                                 <h3>{user.first_name}</h3> </div>
                             </TinderCard>

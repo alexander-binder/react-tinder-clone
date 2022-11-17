@@ -1,10 +1,11 @@
 import ChatHeader from './ChatHeader'
 import ChatDisplay from './ChatDisplay'
 import { useState } from 'react'
+import MatchesDisplay from './MatchesDisplay';
 
 const ChatContainer = ({ user }) => {
     const [ clickedUser, setClickedUser ] = useState(null)
-
+    console.log(clickedUser);
     return (
         <>
         <div className="chat-container">
@@ -14,10 +15,10 @@ const ChatContainer = ({ user }) => {
                 <button className="option" onClick={() => setClickedUser(null)}>Matches</button>
                 <button className="option" disabled={!clickedUser}>Chat</button>
             </div>
-            <ChatDisplay/>
-            {/* {!clickedUser && <MatchesDisplay matches={user.matches} setClickedUser={setClickedUser}/>}
+            
+            { !clickedUser && <MatchesDisplay  matches={user?.matches} setClickedUser={setClickedUser}/> }
 
-            {clickedUser && <ChatDisplay user={user} clickedUser={clickedUser}/>} */}
+            {clickedUser && <ChatDisplay user={user} clickedUser={clickedUser}/>}
         </div>
 
         </>

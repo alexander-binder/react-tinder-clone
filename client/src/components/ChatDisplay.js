@@ -4,11 +4,11 @@ import ChatInput from './ChatInput'
 import {useState, useEffect} from "react"
 
 
-const ChatDisplay = () => {
+const ChatDisplay = ({user, clickedUser}) => {
    
     return (
         <>
-        <Chat/>
+        <Chat user={user} clickedUser={clickedUser}/>
         <ChatInput />
         
         </>
