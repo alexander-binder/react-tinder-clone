@@ -49,7 +49,7 @@ const Dashboard = () => {
         !genderedUsers && getGenderUsers();
     }, [user,genderedUsers]);
 
-    console.log('gendered users',genderedUsers);
+    // console.log('gendered users',genderedUsers);
 
         
     

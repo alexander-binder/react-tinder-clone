@@ -201,8 +201,7 @@ app.put('/addmatch', async (req, res) => {
 app.get('/getmatches', async (req, res) => {
     const client = new MongoClient(uri);
     const userIds = JSON.parse(req.query.userIds);
-    // const array =  new Array(userIds);
-    // console.log('userIds__:'+ userIds);
+    const userCnnectedId = req.query.connectedId;
 
     try {
         await client.connect()
@@ -217,9 +216,16 @@ app.get('/getmatches', async (req, res) => {
                     }
                 }
             }
-        ]
+        ];
+        // const foundProfiles = await users.aggregate(pipeline).toArray();
+        // const likedProfileIdsOfTheOpposition = foundProfiles && foundProfiles.matches.map(({ user_id }) =>  user_id )
+        // const foundMatches = foundLinks?.filter(
+        //     (userProfile) => likedProfileIdsOfTheOpposition.includes(userCnnectedId)
+        // );
         const foundMatches = await users.aggregate(pipeline).toArray();
-        console.log('matches__:'+ foundMatches);
+        const matches = foundMatches.map( (profile) => profile.matches);
+        //  const likedProfileIdsOfTheOpposition = foundProfiles && foundProfiles.matches.map(({ user_id }) =>  user_id )
+        console.log('matches__:'+  matches[1].user_id);
 
         res.send(foundMatches);
 
@@ -234,7 +240,7 @@ app.get('/messages', async (req, res) => {
     const { userId, correspondingUserId } = req.query;
    
     console.log('from_userId__:' + userId, 'to_userId__:' + correspondingUserId );
-    
+
     try {
          await client.connect()
          const database = client.db('app-data');

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from 'axios';
 
-const MatchesDisplay = ({ matches, setClickedUser }) => {
+const MatchesDisplay = ({ matches, setClickedUser, userConnectedId }) => {
     
     const [matchedProfiles, setMatchedProfiles] = useState(null);
 
@@ -13,7 +13,7 @@ const MatchesDisplay = ({ matches, setClickedUser }) => {
         try {
  
              const response = await axios.get('http://localhost:8000/getmatches',{ 
-                 params: {userIds: JSON.stringify(likedUserIds)}
+                 params: {userIds: JSON.stringify(likedUserIds), connectedId:userConnectedId}
              });
              
             setMatchedProfiles(response.data);
@@ -27,18 +27,26 @@ const MatchesDisplay = ({ matches, setClickedUser }) => {
         geMatches()
       
     }, []);
-
  
-    // console.log('matchedProfiles_____'+ matchedProfiles[0].user_id);
+
     return (
       <div className="matches-display">
-        {matchedProfiles?.map((match, index)=> (
-            <div key={index} className="match-card" onClick={ () => setClickedUser(match) }>
-                <div className="img-container">
-                    <img src={match?.url} alt={match?.first_name + 'profile'}/>
-                </div>
-                <h3>{match?.first_name}</h3>
-            </div>
+        {matchedProfiles?.map((oppositionLikedProfile, index)=> (
+            
+            // checking if user connected is in the matches of the profile he liked! is so than display the match.
+            oppositionLikedProfile && oppositionLikedProfile.matches.map((likedProifle) => {
+                        if(likedProifle.user_id === userConnectedId){
+                            return(
+                                <div key={index} className="match-card" onClick={ () => setClickedUser(oppositionLikedProfile) }>
+                                    <div className="img-container">
+                                        <img src={oppositionLikedProfile?.url} alt={oppositionLikedProfile?.first_name + 'profile'}/>
+                                    </div>
+                                    <h3>{oppositionLikedProfile?.first_name}</h3>
+                                </div>
+                            )
+                        }
+                    })
+            
         ))}
       </div>
     )
