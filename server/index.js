@@ -217,15 +217,8 @@ app.get('/getmatches', async (req, res) => {
                 }
             }
         ];
-        // const foundProfiles = await users.aggregate(pipeline).toArray();
-        // const likedProfileIdsOfTheOpposition = foundProfiles && foundProfiles.matches.map(({ user_id }) =>  user_id )
-        // const foundMatches = foundLinks?.filter(
-        //     (userProfile) => likedProfileIdsOfTheOpposition.includes(userCnnectedId)
-        // );
+
         const foundMatches = await users.aggregate(pipeline).toArray();
-        const matches = foundMatches.map( (profile) => profile.matches);
-        //  const likedProfileIdsOfTheOpposition = foundProfiles && foundProfiles.matches.map(({ user_id }) =>  user_id )
-        console.log('matches__:'+  matches[1].user_id);
 
         res.send(foundMatches);
 
@@ -251,6 +244,29 @@ app.get('/messages', async (req, res) => {
          const foundMessages = await messages.find(query).toArray();
 
          res.send(foundMessages);
+ 
+    } finally {
+     await client.close()
+    }
+ 
+ });
+
+
+
+// addMessages 
+ app.post('/addmessage', async (req, res) => {
+    const client = new MongoClient(uri);
+    const message = req.body.message;
+ 
+
+    try {
+         await client.connect()
+         const database = client.db('app-data');
+         const messages = database.collection('messages');
+
+         const insertedMessage = await messages.insertOne(message);
+
+         res.send(insertedMessage);
  
     } finally {
      await client.close()
